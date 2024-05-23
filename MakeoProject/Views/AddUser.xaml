@@ -1,0 +1,41 @@
+﻿<Window x:Class="MakeoProject.Views.AddUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MakeoProject.Views"
+        mc:Ignorable="d"
+        Title="AddUser" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Définition des colonnes -->
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!-- Définition des lignes -->
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Définition des étiquettes de texte -->
+        <TextBlock Margin="12" Text="Nom" Grid.Row="1" Grid.Column="0" />
+        <TextBlock Margin="12" Text="Email" Grid.Row="2" Grid.Column="0" />
+        <TextBlock Margin="12" Text="Mot de passe" Grid.Row="3" Grid.Column="0" />
+
+        <!-- Définition des zones de saisie -->
+        <TextBox Text="{Binding User.Name}" Grid.Row="1" Grid.Column="1" Margin="10" Padding="5"/>
+        <TextBox Text="{Binding User.Email}" Grid.Row="2" Grid.Column="1" Margin="10" Padding="5"/>
+        <TextBox Text="{Binding User.Password}" Grid.Row="3" Grid.Column="1" Margin="10" Padding="5"/>
+
+        <!-- Bouton pour ajouter un client -->
+        <Button x:Name="AddUserButton" Grid.Row="4" Grid.Column="1" Content="Ajouter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+
+    </Grid>
+</Window>
