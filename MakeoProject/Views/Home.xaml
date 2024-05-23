@@ -7,6 +7,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label>Home</Label>
+        <StackPanel Margin="20">
+            <TextBlock Text="Bienvenue" FontSize="24" FontWeight="Bold" Margin="0 0 0 10"/>
+            <TextBlock TextWrapping="Wrap" TextAlignment="Left">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac massa vel mi interdum convallis sed eget odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer eget dui ut est euismod convallis. Pellentesque sit amet mi quis nisl pretium auctor non vitae nunc. Sed auctor quam sit amet tellus interdum, vitae cursus magna volutpat. Vivamus quis nunc at velit suscipit aliquam vitae nec ex. Sed lobortis orci at justo placerat vehicula. Sed elementum a nisi nec varius. Integer id magna auctor, fermentum nisl sed, molestie dui. Aliquam erat volutpat. Nulla facilisi.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" TextAlignment="Right" Margin="0 10 0 0">
+                Sed sed massa sed tortor dapibus vestibulum. Nam eu sapien vitae magna fermentum tristique. Mauris ullamcorper ipsum non metus posuere, sed vehicula eros sagittis. Pellentesque ut mauris augue. Duis eget nisi ac purus ullamcorper efficitur. In id commodo mauris. Ut id feugiat ex. Phasellus nec lectus a justo ultricies pulvinar. Sed vitae velit at dui hendrerit condimentum id a arcu. In iaculis vehicula odio, ac varius nulla consectetur quis.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Margin="0 10 0 0">
+                Integer bibendum lectus ut odio vestibulum consectetur. Sed eu diam sed arcu commodo ullamcorper. In luctus ligula vitae nisl vehicula, vitae condimentum odio vestibulum. Cras eget sagittis est. Duis vestibulum erat libero, id auctor velit volutpat eget. Donec ultricies rutrum nisi, eu volutpat mauris efficitur nec. Vivamus nec leo sit amet felis pharetra vestibulum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+            </TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

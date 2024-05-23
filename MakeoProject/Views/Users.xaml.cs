@@ -72,17 +72,6 @@ namespace MakeoProject.Views
             addUser.Show();
         }
 
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.alluser != null && SelectedUser != null)
-            {
-                using (MakeoProjectContext context = new())
-                {
-                    context.Users.Remove(SelectedUser);
-                    context.SaveChanges();
-                    this.alluser.Remove(SelectedUser);
-                }
-            }
-        }
+       
     }
 }
