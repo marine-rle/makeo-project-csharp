@@ -1,25 +1,14 @@
 ﻿using MakeoProject.DbLib.Class;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MakeoProject.Views
 {
-    /// <summary>
-    /// Logique d'interaction pour Users.xaml
-    /// </summary>
     public partial class Users : UserControl
     {
         public ObservableCollection<User> alluser { get; set; }
@@ -29,18 +18,15 @@ namespace MakeoProject.Views
         public Users()
         {
             InitializeComponent();
-
             this.DataContext = this;
 
-            using (MakeoProjectContext allusers = new())
-            {
-                alluser = new ObservableCollection<User>(allusers.Users.ToList());
-            }
+            LoadUsers();
 
             var columnsToDisplay = new Dictionary<string, string>
             {
                 { "Id", "ID" },
-                { "Name", "Nom" },
+                { "Name", "Prénom" },
+                { "Surname", "Nom" },
                 { "Email", "Email" }
             };
 
@@ -57,6 +43,9 @@ namespace MakeoProject.Views
                     case "Name":
                         dataColumn.Width = new DataGridLength(150);
                         break;
+                    case "Surname":
+                        dataColumn.Width = new DataGridLength(150);
+                        break;
                     default:
                         dataColumn.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
                         break;
@@ -66,12 +55,90 @@ namespace MakeoProject.Views
 
             dgCustomer.AutoGenerateColumns = false;
         }
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+
+        private void LoadUsers()
         {
-            AddUser addUser = new AddUser();
-            addUser.Show();
+            using (MakeoProjectContext context = new MakeoProjectContext())
+            {
+                var users = context.Users.ToList();
+                alluser = new ObservableCollection<User>(users);
+            }
         }
 
-       
+        private void RefreshDataGrid()
+        {
+            LoadUsers();
+            dgCustomer.ItemsSource = alluser;
+        }
+
+        // Event handler for Info Button click
+        private void InfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgCustomer.SelectedItem is User selectedUser)
+            {
+                var infoWindow = new InfoUser(selectedUser);
+                infoWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner un utilisateur pour voir les détails.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        // Event handler for Edit Button click
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedUser != null)
+            {
+                EditUser editUser = new EditUser(SelectedUser);
+                editUser.Closed += (s, args) => RefreshDataGrid(); // Actualiser le DataGrid après la fermeture de la fenêtre d'édition
+                editUser.Show();
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner un utilisateur à modifier.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedUser != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer cet utilisateur et tous ses projets ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    using (MakeoProjectContext context = new MakeoProjectContext())
+                    {
+                        var userToDelete = context.Users
+                                                  .Include(u => u.Projects)
+                                                  .ThenInclude(p => p.ProjetCompetences)
+                                                  .Include(u => u.Projects)
+                                                  .ThenInclude(p => p.FreelanceProjects)
+                                                  .FirstOrDefault(u => u.Id == SelectedUser.Id);
+
+                        if (userToDelete != null)
+                        {
+                            foreach (var project in userToDelete.Projects)
+                            {
+                                context.ProjetCompetences.RemoveRange(project.ProjetCompetences);
+                                context.FreelanceProjects.RemoveRange(project.FreelanceProjects);
+                            }
+
+                            context.Projects.RemoveRange(userToDelete.Projects);
+                            context.Users.Remove(userToDelete);
+                            context.SaveChanges();
+                        }
+                    }
+
+                    alluser.Remove(SelectedUser);
+                    SelectedUser = null;
+                    RefreshDataGrid(); // Actualiser le DataGrid après suppression
+                }
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner un utilisateur à supprimer.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }

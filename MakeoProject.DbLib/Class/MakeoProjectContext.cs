@@ -195,12 +195,12 @@ public partial class MakeoProjectContext : DbContext
 
             entity.HasOne(d => d.Freelance).WithMany(p => p.FreelanceProjects)
                 .HasForeignKey(d => d.FreelanceId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("freelance_projects_freelance_id_foreign");
 
             entity.HasOne(d => d.Project).WithMany(p => p.FreelanceProjects)
                 .HasForeignKey(d => d.ProjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("freelance_projects_project_id_foreign");
         });
 
@@ -338,7 +338,7 @@ public partial class MakeoProjectContext : DbContext
 
             entity.HasOne(d => d.Project).WithMany(p => p.ProjetCompetences)
                 .HasForeignKey(d => d.ProjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("projet_competences_project_id_foreign");
         });
 

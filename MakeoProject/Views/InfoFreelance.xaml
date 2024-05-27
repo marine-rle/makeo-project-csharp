@@ -1,0 +1,82 @@
+﻿<Window x:Class="MakeoProject.Views.InfoFreelance"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Informations du Freelance" Height="600" Width="800" Background="#fafafa"
+         WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Personal Information Section -->
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#3498db" Padding="5" Margin="0 0 0 10">
+            <TextBlock Text="Informations Personnelles" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        </Border>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 10" Orientation="Vertical">
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock Text="Prénom: " VerticalAlignment="Center" FontWeight="Bold" Foreground="#34495e"/>
+                <TextBlock Text="{Binding Name, FallbackValue='N/A'}" Foreground="#34495e"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="0 5 0 0">
+                <TextBlock Text="Nom: " VerticalAlignment="Center" FontWeight="Bold" Foreground="#34495e"/>
+                <TextBlock Text="{Binding Surname, FallbackValue='N/A'}" Foreground="#34495e"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="0 5 0 0">
+                <TextBlock Text="Description: " VerticalAlignment="Center" FontWeight="Bold" Foreground="#34495e"/>
+                <TextBlock Text="{Binding Description, FallbackValue='N/A'}" TextWrapping="Wrap" Foreground="#34495e"/>
+            </WrapPanel>
+        </StackPanel>
+
+        <!-- Dates Section -->
+        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="#e67e22" Padding="5" Margin="0 10">
+            <TextBlock Text="Dates" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        </Border>
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 10" Orientation="Vertical">
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock Text="Créé le: " FontWeight="Bold" Foreground="#34495e"/>
+                <TextBlock Text="{Binding CreatedAt, StringFormat=\{0:dd/MM/yyyy\}, FallbackValue='N/A'}" Foreground="#34495e"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="0 5 0 0">
+                <TextBlock Text="Mis à jour le: " FontWeight="Bold" Foreground="#34495e"/>
+                <TextBlock Text="{Binding UpdatedAt, StringFormat=\{0:dd/MM/yyyy\}, FallbackValue='N/A'}" Foreground="#34495e"/>
+            </WrapPanel>
+        </StackPanel>
+
+        <!-- Skills Section -->
+        <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Background="#2ecc71" Padding="5" Margin="0 10">
+            <TextBlock Text="Compétences" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        </Border>
+        <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Skills, FallbackValue='N/A'}" TextWrapping="Wrap" Foreground="#34495e" Margin="0 10"/>
+
+
+        <!-- Projects Section -->
+        <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Background="#e74c3c" Padding="5" Margin="0 10">
+            <TextBlock Text="Projets associés" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        </Border>
+        <ListBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" x:Name="projectListBox" ItemsSource="{Binding AssociatedProjects}"
+         Background="White" Foreground="#34495e" BorderBrush="#34495e" BorderThickness="1" Padding="5" MaxHeight="150">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Id}" Foreground="#34495e" FontWeight="Bold" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Title}" Foreground="#34495e"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
+
+    </Grid>
+</Window>

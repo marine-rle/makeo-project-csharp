@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace MakeoProject.Views
 {
@@ -52,6 +52,21 @@ namespace MakeoProject.Views
             AvailableCompetencesListBox.ItemsSource = AvailableCompetences;
         }
 
+        // Validation method for name and surname
+        private bool IsValidName(string name)
+        {
+            // Check if the name contains only letters (including accented letters) and spaces
+            return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$");
+        }
+
+
+        // Validation method for description
+        private bool IsValidDescription(string description)
+        {
+            // Check if the description contains at least one non-space character
+            return !string.IsNullOrWhiteSpace(description);
+        }
+
         // Event handler for adding a competence
         private void AddCompetenceButton_Click(object sender, RoutedEventArgs e)
         {
@@ -85,42 +100,61 @@ namespace MakeoProject.Views
         // Event handler for confirming changes
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            // Update the freelance data with the modified values
-            SelectedFreelance.Name = Name.Text;
-            SelectedFreelance.Surname = Surname.Text;
-            SelectedFreelance.Description = Description.Text;
-            SelectedFreelance.UpdatedAt = DateTime.Now;
+            string name = Name.Text;
+            string surname = Surname.Text;
+            string description = Description.Text;
 
-            try
+            if (IsValidName(name) && IsValidName(surname) && IsValidDescription(description))
             {
-                using (MakeoProjectContext context = new MakeoProjectContext())
+                if (SelectedCompetencesListBox.Items.Count > 0)
                 {
-                    // Remove existing competences
-                    var existingCompetences = context.FreelanceCompetences.Where(fc => fc.FreelanceId == SelectedFreelance.Id).ToList();
-                    context.FreelanceCompetences.RemoveRange(existingCompetences);
-                    context.SaveChanges();
+                    // Update the freelance data with the modified values
+                    SelectedFreelance.Name = name;
+                    SelectedFreelance.Surname = surname;
+                    SelectedFreelance.Description = description;
+                    SelectedFreelance.UpdatedAt = DateTime.Now;
 
-                    // Add the new competences
-                    foreach (var competence in SelectedCompetences)
+                    try
                     {
-                        SelectedFreelance.FreelanceCompetences.Add(new FreelanceCompetence { FreelanceId = SelectedFreelance.Id, IdCompetences = competence.Id });
+                        using (MakeoProjectContext context = new MakeoProjectContext())
+                        {
+                            // Remove existing competences
+                            var existingCompetences = context.FreelanceCompetences.Where(fc => fc.FreelanceId == SelectedFreelance.Id).ToList();
+                            context.FreelanceCompetences.RemoveRange(existingCompetences);
+                            context.SaveChanges();
+
+                            // Add the new competences
+                            foreach (var competence in SelectedCompetences)
+                            {
+                                SelectedFreelance.FreelanceCompetences.Add(new FreelanceCompetence { FreelanceId = SelectedFreelance.Id, IdCompetences = competence.Id });
+                            }
+
+                            // Update the freelance in the database
+                            context.Update(SelectedFreelance);
+                            context.SaveChanges();
+
+                            MessageBox.Show("Modifications enregistrées avec succès.");
+                            this.Close();
+                        }
                     }
+                    catch (DbUpdateException ex)
+                    {
+                        MessageBox.Show("Une erreur est survenue lors de la modification du freelance : " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Une erreur est survenue : " + ex.Message);
+                    }
+                }
 
-                    // Update the freelance in the database
-                    context.Update(SelectedFreelance);
-                    context.SaveChanges();
-
-                    MessageBox.Show("Modifications enregistrées avec succès.");
-                    this.Close();
+                else
+                {
+                    MessageBox.Show("Veuillez sélectionner au moins une compétence.");
                 }
             }
-            catch (DbUpdateException ex)
+            else
             {
-                MessageBox.Show("Une erreur est survenue lors de la modification du freelance : " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Une erreur est survenue : " + ex.Message);
+                MessageBox.Show("Veuillez entrer un nom et un prénom valides (contenant des lettres) et remplir la description.");
             }
         }
     }

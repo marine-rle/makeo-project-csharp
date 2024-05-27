@@ -5,40 +5,89 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MakeoProject.Views"
         mc:Ignorable="d"
-        Title="EditFreelance" Height="600" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="2*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        Title="Modifier le freelance" Height="600" Width="1000"
+         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="GroupBox">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <TextBlock Text="Prénom:" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="0" />
-        <TextBox Name="Name" Width="200" Height="30" Margin="10" Grid.Column="1" Grid.Row="0" />
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="DarkBlue" Padding="5" Margin="0 0 0 10">
+                <TextBlock Text="Modifier le freelance" TextAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="White"/>
+            </Border>
 
-        <TextBlock Text="Nom:" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="1" />
-        <TextBox Name="Surname" Width="200" Height="30" Margin="10" Grid.Column="1" Grid.Row="1" />
+            <!-- Name Section -->
+            <GroupBox Header="Prénom" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
+                <Grid Margin="10">
+                    <TextBox Name="Name" MaxLength="50" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" BorderThickness="1"/>
+                </Grid>
+            </GroupBox>
 
-        <TextBlock Text="Description:" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="2" />
-        <TextBox Name="Description" Width="200" Height="30" Margin="10" Grid.Column="1" Grid.Row="2" />
+            <!-- Surname Section -->
+            <GroupBox Header="Nom" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
+                <Grid Margin="10">
+                    <TextBox Name="Surname" MaxLength="50" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" BorderThickness="1"/>
+                </Grid>
+            </GroupBox>
 
-        <TextBlock Text="Compétences disponibles:" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="3" />
-        <ListBox Name="AvailableCompetencesListBox" SelectionMode="Multiple" Margin="10" Grid.Column="1" Grid.Row="3" DisplayMemberPath="Name" />
+            <!-- Description Section -->
+            <GroupBox Header="Description" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="0,10,0,0" BorderBrush="DarkGray">
+                <Grid Margin="10">
+                    <TextBox Name="Description" MaxLength="255" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Padding="5" FontSize="14" BorderBrush="Gray" BorderThickness="1" Height="55"/>
+                </Grid>
+            </GroupBox>
 
-        <Button Content="Ajouter" Width="100" Height="30" Margin="10" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Click="AddCompetenceButton_Click" Style="{StaticResource EditButtonStyle}"/>
-        <Button Content="Supprimer" Width="100" Height="30" Margin="10" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Click="RemoveCompetenceButton_Click" Style="{StaticResource DeleteButtonStyle}"/>
+            <!-- Skills GroupBox -->
+            <GroupBox Header="Compétences disponibles et sélectionnées" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,10,0,0" BorderBrush="DarkGray">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="2.5*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-        <TextBlock Text="Compétences sélectionnées:" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="5" />
-        <ListBox Name="SelectedCompetencesListBox" Margin="10" Grid.Column="1" Grid.Row="5" DisplayMemberPath="Name" />
+                    <TextBlock Text="Disponibles:" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="0" TextDecorations="Underline" />
+                    <ListBox Name="AvailableCompetencesListBox" ItemsSource="{Binding AvailableSkills}" SelectionMode="Multiple" Margin="10" Grid.Column="0" Grid.Row="1" DisplayMemberPath="Name" />
 
-        <Button Content="Valider" Width="100" Height="30" Margin="10" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Click="ConfirmButton_Click" Style="{StaticResource AddButtonStyle}"/>
-    </Grid>
+                    <TextBlock Text="Sélectionnées:" VerticalAlignment="Center" Margin="10" Grid.Column="1" Grid.Row="0" TextDecorations="Underline"/>
+                    <ListBox Name="SelectedCompetencesListBox" ItemsSource="{Binding SelectedSkills}" SelectionMode="Multiple" Margin="10" Grid.Column="1" Grid.Row="1" DisplayMemberPath="Name" />
+
+                    <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
+                        <Button Content="Ajouter" Width="100" Height="30" Margin="10,0" Click="AddCompetenceButton_Click"  Style="{StaticResource EditButtonStyle}"/>
+                        <Button Content="Supprimer" Width="100" Height="30" Margin="10,0"  Click="RemoveCompetenceButton_Click" Style="{StaticResource DeleteButtonStyle}"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+            <!-- Confirm Button -->
+            <Button Content="Valider" Width="100" Height="30" Margin="10" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Right" Click="ConfirmButton_Click" Style="{StaticResource AddButtonStyle}"/>
+        </Grid>
+    </ScrollViewer>
 </Window>

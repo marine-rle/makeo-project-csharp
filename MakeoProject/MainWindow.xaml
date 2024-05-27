@@ -6,7 +6,8 @@
         xmlns:views="clr-namespace:MakeoProject.Views"
         xmlns:local="clr-namespace:MakeoProject"
         mc:Ignorable="d"
-        Title="Makeo Project" Height="550" Width="1200">
+        Title="Makeo Project" Height="550" Width="1200"
+         WindowStartupLocation="CenterScreen">
     <Grid  Style="{StaticResource Grid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="15" />

@@ -5,6 +5,7 @@
         <Setter Property="Background" Value="#fd8ab4" />
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -26,6 +27,7 @@
         <Setter Property="Foreground" Value="#fe898b" />
         <Setter Property="Background" Value="White" />
         <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="BorderBrush" Value="#fd8ab4"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
@@ -125,6 +127,46 @@
                 <Setter Property="Background" Value="LightGreen"/>
             </Trigger>
         </Style.Triggers>
+    </Style> 
+    
+    <Style x:Key="InfoButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#17a2b8"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#8017a2b8"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
+
+    <Style x:Key="Text-pink" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="#fd8ab4" />
+    </Style>
+
+    <Style x:Key="Text-grey" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="#3b3738" />
+    </Style>
+
+    <Style x:Key="Text-black" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Black" />
+    </Style>  
+    
+    <Style x:Key="Text-pinkorange" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="#FF6F61" />
+    </Style>
+
 
 </ResourceDictionary>

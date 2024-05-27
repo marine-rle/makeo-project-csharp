@@ -28,6 +28,8 @@
             <ColumnDefinition Width="Auto" />
             <!-- Edit Button -->
             <ColumnDefinition Width="Auto" />
+            <!-- Info Button -->
+            <ColumnDefinition Width="Auto" />
             <!-- Delete Button -->
         </Grid.ColumnDefinitions>
 
@@ -39,11 +41,14 @@
 
         <!-- Edit Button with custom style -->
         <Button Grid.Row="1" Grid.Column="2" Content="Modifier" Click="EditButton_Click" Style="{StaticResource EditButtonStyle}"/>
+        
+        <!-- Info Button with custom style -->
+        <Button Grid.Row="1" Grid.Column="3" Content="Informations" Click="InfoButton_Click" Style="{StaticResource InfoButtonStyle}"/>
 
         <!-- Delete Button with custom style -->
-        <Button Grid.Row="1" Grid.Column="3" Content="Supprimer"  Click="RemoveButton_Click" Style="{StaticResource DeleteButtonStyle}"/>
+        <Button Grid.Row="1" Grid.Column="4" Content="Supprimer"  Click="RemoveButton_Click" Style="{StaticResource DeleteButtonStyle}"/>
 
         <!-- DataGrid for displaying freelances -->
-        <DataGrid x:Name="dgFreelances" Grid.Row="2" Grid.ColumnSpan="4" AutoGenerateColumns="False" ItemsSource="{Binding allfreelance}" SelectedItem="{Binding SelectedFreelance}" CanUserReorderColumns="False" CanUserResizeColumns="False" Margin="0,20,0,0"/>
+        <DataGrid x:Name="dgFreelances" Grid.Row="2" Grid.ColumnSpan="5" AutoGenerateColumns="False" ItemsSource="{Binding allfreelance}" SelectedItem="{Binding SelectedFreelance}" CanUserReorderColumns="False" CanUserResizeColumns="False" Margin="0,20,0,0"/>
     </Grid>
 </UserControl>

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -31,7 +32,6 @@ namespace MakeoProject.Views
             SelectedCompetencesListBox.ItemsSource = SelectedCompetences;
         }
 
-
         // Method to load competences from the database
         private void LoadCompetences()
         {
@@ -39,6 +39,22 @@ namespace MakeoProject.Views
             {
                 AvailableCompetences = new ObservableCollection<Competence>(context.Competences.ToList());
             }
+        }
+
+        // Validation method for name and surname
+        private bool IsValidName(string name)
+        {
+            // Check if the name contains only letters (including accented letters) and spaces
+            return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$");
+        }
+
+
+
+        // Validation method for description
+        private bool IsValidDescription(string description)
+        {
+            // Check if the description contains at least one non-space character
+            return !string.IsNullOrWhiteSpace(description);
         }
 
         // Event handler for adding competence button click
@@ -74,7 +90,7 @@ namespace MakeoProject.Views
             string surname = Surname.Text;
             string description = Description.Text;
 
-            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(surname) && !string.IsNullOrEmpty(description))
+            if (IsValidName(name) && IsValidName(surname) && IsValidDescription(description))
             {
                 // Check if there are selected competences
                 if (SelectedCompetencesListBox.Items.Count > 0)
@@ -107,7 +123,7 @@ namespace MakeoProject.Views
                     }
                     catch (DbUpdateException ex)
                     {
-                        MessageBox.Show("Une erreur est survenue lors de la modification du client : " + ex.Message);
+                        MessageBox.Show("Une erreur est survenue lors de l'ajout d'un freelance : " + ex.Message);
                     }
                     catch (Exception ex)
                     {
@@ -121,9 +137,8 @@ namespace MakeoProject.Views
             }
             else
             {
-                MessageBox.Show("Veuillez remplir tous les champs");
+                MessageBox.Show("Veuillez entrer un nom et un prénom valides (contenant des lettres) et remplir la description.");
             }
         }
-
     }
 }

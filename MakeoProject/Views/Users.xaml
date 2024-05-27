@@ -20,16 +20,19 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
 
-        <Label Grid.Row="0" Grid.ColumnSpan="4" Content="Tous les clients" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+        <Label Grid.Row="0" Grid.ColumnSpan="5" Content="Tous les clients" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
 
-        <!-- Bouton Modifier avec un style personnalisé -->
-        <Button Grid.Row="1" Grid.Column="1" Content="Modifier" Style="{StaticResource EditButtonStyle}"/>
 
-        <Button Grid.Row="1" Grid.Column="2" Content="Supprimer" Style="{StaticResource DeleteButtonStyle}"/>
+        <Button Grid.Row="1" Grid.Column="2" Content="Modifier" Click="EditButton_Click" Style="{StaticResource EditButtonStyle}"/>
 
-        <DataGrid x:Name="dgCustomer" Grid.Row="2" Grid.ColumnSpan="4" AutoGenerateColumns="False" ItemsSource="{Binding alluser}" SelectedItem="{Binding SelectedUser}" CanUserReorderColumns="False" CanUserResizeColumns="False" Margin="0,20,0,0"/>
+        <Button Grid.Row="1" Grid.Column="3" Content="Informations" Click="InfoButton_Click" Style="{StaticResource InfoButtonStyle}"/>
+
+        <Button Grid.Row="1" Grid.Column="4" Content="Supprimer" Click="DeleteButton_Click" Style="{StaticResource DeleteButtonStyle}"/>
+
+        <DataGrid x:Name="dgCustomer" Grid.Row="2" Grid.ColumnSpan="5" AutoGenerateColumns="False" ItemsSource="{Binding alluser}" SelectedItem="{Binding SelectedUser}" CanUserReorderColumns="False" CanUserResizeColumns="False" Margin="0,20,0,0"/>
     </Grid>
 </UserControl>
