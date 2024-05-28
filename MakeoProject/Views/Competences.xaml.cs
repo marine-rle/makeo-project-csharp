@@ -85,5 +85,51 @@ namespace MakeoProject.Views
             addCompetences.Closed += (s, args) => RefreshDataGrid();
             addCompetences.Show();
         }
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedCompetence != null)
+            {
+                EditCompetences editCompetences = new EditCompetences(SelectedCompetence);
+                editCompetences.Closed += (s, args) => RefreshDataGrid();
+                editCompetences.Show();
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner une compétence à modifier.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedCompetence != null)
+            {
+                using (MakeoProjectContext context = new MakeoProjectContext())
+                {
+                    // Vérifiez si la compétence est utilisée dans un projet
+                    bool isUsedInProject = context.ProjetCompetences.Any(pc => pc.IdCompetences == SelectedCompetence.Id);
+                    bool isUsedInFreelance = context.FreelanceCompetences.Any(fc => fc.IdCompetences == SelectedCompetence.Id);
+
+                    if (isUsedInProject || isUsedInFreelance)
+                    {
+                        MessageBox.Show("Cette compétence est utilisée dans un ou plusieurs projets ou par des freelances et ne peut pas être supprimée.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        var competenceToRemove = context.Competences.FirstOrDefault(c => c.Id == SelectedCompetence.Id);
+                        if (competenceToRemove != null)
+                        {
+                            context.Competences.Remove(competenceToRemove);
+                            context.SaveChanges();
+                            RefreshDataGrid();
+                            MessageBox.Show("La compétence a été supprimée avec succès.", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner une compétence à supprimer.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }

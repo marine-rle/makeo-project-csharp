@@ -81,7 +81,7 @@ namespace MakeoProject.Views
                     .Include(p => p.Statut)
                     .Include(p => p.ProjetCompetences)
                         .ThenInclude(pc => pc.IdCompetencesNavigation)
-                    .Where(p => p.Statut.Name != "Brouillon")
+                    .Where(p => p.Statut.Id != 1)
                     .ToList();
                 allproject = new ObservableCollection<Project>(projects);
             }

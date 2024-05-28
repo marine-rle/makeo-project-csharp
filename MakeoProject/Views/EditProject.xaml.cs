@@ -36,7 +36,7 @@ namespace MakeoProject.Views
             using (MakeoProjectContext context = new MakeoProjectContext())
             {
                 var allStatuses = context.Statuts.ToList();
-                var filteredStatuses = allStatuses.Where(s => s.Name != "Brouillon").ToList();
+                var filteredStatuses = allStatuses.Where(s => s.Id != 1).ToList(); // Exclusion basée sur l'ID
                 Statuses = new ObservableCollection<Statut>(filteredStatuses);
             }
         }

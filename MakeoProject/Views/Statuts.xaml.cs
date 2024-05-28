@@ -85,7 +85,36 @@ namespace MakeoProject.Views
                 MessageBox.Show("Veuillez sélectionner un freelance à modifier.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedStatut != null)
+            {
+                using (MakeoProjectContext context = new MakeoProjectContext())
+                {
+                    // Vérifiez si le statut est utilisé dans un projet
+                    bool isUsed = context.Projects.Any(p => p.StatutId == SelectedStatut.Id);
 
-
+                    if (isUsed)
+                    {
+                        MessageBox.Show("Ce statut est utilisé dans un ou plusieurs projets et ne peut pas être supprimé.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        var statutToRemove = context.Statuts.FirstOrDefault(s => s.Id == SelectedStatut.Id);
+                        if (statutToRemove != null)
+                        {
+                            context.Statuts.Remove(statutToRemove);
+                            context.SaveChanges();
+                            RefreshDataGrid();
+                            MessageBox.Show("Le statut a été supprimé avec succès.", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner un statut à supprimer.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }
