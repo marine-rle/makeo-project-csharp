@@ -118,7 +118,7 @@ namespace MakeoProject.Views
             }
         }
 
-        private bool IsValidTitle(string title)
+       private bool IsValidTitle(string title)
         {
             return !string.IsNullOrWhiteSpace(title) && title.Length <= 100;
         }

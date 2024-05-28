@@ -2,6 +2,8 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace MakeoProject.Views
 {
@@ -24,15 +26,60 @@ namespace MakeoProject.Views
             Email.Text = SelectedUser.Email;
         }
 
+        private void Name_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Name.Text.Length;
+            CharacterCount.Text = $"{length}/50 caractères";
+
+            if (length > 50)
+            {
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessage.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Surname_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Surname.Text.Length;
+            CharacterCountSurname.Text = $"{length}/50 caractères";
+
+            if (length > 50)
+            {
+                ErrorMessageSurname.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessageSurname.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Email_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Email.Text.Length;
+            CharacterCountEmail.Text = $"{length}/100 caractères";
+
+            if (length > 100)
+            {
+                ErrorMessageEmail.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessageEmail.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private bool IsValidName(string name)
         {
             // Check if the name contains only letters (including accented letters) and spaces
-            return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$");
+            return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$") && name.Length <= 50;
         }
 
         private bool IsValidEmail(string email)
         {
-            return !string.IsNullOrWhiteSpace(email) && email.Contains("@");
+            return !string.IsNullOrWhiteSpace(email) && email.Contains("@") && email.Length <= 100;
         }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
@@ -43,19 +90,19 @@ namespace MakeoProject.Views
 
             if (!IsValidName(name))
             {
-                MessageBox.Show("Le prénom n'est pas valide. Il doit contenir uniquement des lettres.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Le prénom n'est pas valide. Il doit contenir uniquement des lettres et avoir au maximum 50 caractères.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!IsValidName(surname))
             {
-                MessageBox.Show("Le nom n'est pas valide. Il doit contenir uniquement des lettres.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Le nom n'est pas valide. Il doit contenir uniquement des lettres et avoir au maximum 50 caractères.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!IsValidEmail(email))
             {
-                MessageBox.Show("L'adresse email n'est pas valide.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("L'adresse email n'est pas valide, il doit contenir un @ et au maximum 50 caractères.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 

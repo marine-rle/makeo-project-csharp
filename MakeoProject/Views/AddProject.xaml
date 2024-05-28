@@ -52,7 +52,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBox Name="Title" MaxLength="105" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" BorderThickness="1" TextChanged="Title_TextChanged" Grid.ColumnSpan="2" />
-                    <TextBlock Name="CharacterCount" Margin="0,5,0,0" Grid.Row="1" Text="0/50 caractères" TextAlignment="Right" Grid.Column="2"/>
+                    <TextBlock Name="CharacterCount" Margin="0,5,0,0" Grid.Row="1" Text="0/100 caractères" TextAlignment="Right" Grid.Column="2"/>
                     <TextBlock Name="ErrorMessage" Foreground="Red" Visibility="Collapsed" Margin="0,5,0,0" Text="Vous avez dépassé la limite de 100 caractères." Grid.Row="1" Grid.Column="0"/>
                 </Grid>
             </GroupBox>
