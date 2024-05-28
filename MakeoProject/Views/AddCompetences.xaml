@@ -1,12 +1,12 @@
-﻿<Window x:Class="MakeoProject.Views.AddStatuts"
+﻿<Window x:Class="MakeoProject.Views.AddCompetences"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MakeoProject.Views"
         mc:Ignorable="d"
-        Title="Ajouter un statut" Height="300" Width="800"
-         WindowStartupLocation="CenterScreen">
+        Title="Ajouter une compétence" Height="300" Width="800"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="GroupBox">
             <Setter Property="HeaderTemplate">
@@ -32,11 +32,11 @@
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="DarkGreen" Padding="5" Margin="0 0 0 10">
-                <TextBlock Text="Ajouter un statut" TextAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="Ajouter une compétence" TextAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="White"/>
             </Border>
 
             <!-- Name Section -->
-            <GroupBox Header="Nom du statut" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
+            <GroupBox Header="Nom de la compétences" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />

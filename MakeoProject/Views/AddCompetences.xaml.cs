@@ -6,9 +6,9 @@ using System.Windows.Controls;
 
 namespace MakeoProject.Views
 {
-    public partial class AddStatuts : Window
+    public partial class AddCompetences : Window
     {
-        public AddStatuts()
+        public AddCompetences()
         {
             InitializeComponent();
         }
@@ -38,22 +38,22 @@ namespace MakeoProject.Views
                 {
                     using (MakeoProjectContext context = new MakeoProjectContext())
                     {
-                        var newStatut = new Statut
+                        var newCompetence = new Competence
                         {
                             Name = name,
                             CreatedAt = DateTime.Now,
                             UpdatedAt = DateTime.Now
                         };
 
-                        context.Statuts.Add(newStatut);
+                        context.Competences.Add(newCompetence);
                         context.SaveChanges();
-                        MessageBox.Show("Statut ajouté avec succès.");
+                        MessageBox.Show("Compétence ajoutée avec succès.");
                         this.Close();
                     }
                 }
                 catch (DbUpdateException ex)
                 {
-                    MessageBox.Show("Une erreur est survenue lors de l'ajout du statut : " + ex.Message);
+                    MessageBox.Show("Une erreur est survenue lors de l'ajout de la compétence : " + ex.Message);
                 }
                 catch (Exception ex)
                 {
@@ -62,7 +62,7 @@ namespace MakeoProject.Views
             }
             else
             {
-                MessageBox.Show("Le nom du statut doit être rempli et contenir au maximum 30 caractères.");
+                MessageBox.Show("Le nom de la compétence doit être rempli et contenir au maximum 30 caractères.");
             }
         }
     }

@@ -3,17 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MakeoProject.Views
 {
@@ -28,13 +20,8 @@ namespace MakeoProject.Views
         public Statuts()
         {
             InitializeComponent();
-
             this.DataContext = this;
-
-            using (MakeoProjectContext allstatuts = new())
-            {
-                allstatut = new ObservableCollection<Statut>(allstatuts.Statuts.ToList());
-            }
+            LoadStatuts();
 
             var columnsToDisplay = new Dictionary<string, string>
             {
@@ -62,11 +49,26 @@ namespace MakeoProject.Views
             dgStatuts.AutoGenerateColumns = false;
         }
 
+        private void LoadStatuts()
+        {
+            using (MakeoProjectContext context = new MakeoProjectContext())
+            {
+                allstatut = new ObservableCollection<Statut>(context.Statuts.ToList());
+            }
+            dgStatuts.ItemsSource = allstatut;
+        }
+
+        private void RefreshDataGrid()
+        {
+            LoadStatuts();
+            dgStatuts.ItemsSource = allstatut;
+        }
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddStatuts addStatuts = new AddStatuts();
+            addStatuts.Closed += (s, args) => RefreshDataGrid();
             addStatuts.Show();
         }
     }
-
 }
