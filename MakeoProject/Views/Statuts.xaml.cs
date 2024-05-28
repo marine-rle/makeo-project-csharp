@@ -70,5 +70,22 @@ namespace MakeoProject.Views
             addStatuts.Closed += (s, args) => RefreshDataGrid();
             addStatuts.Show();
         }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Check if a freelance is selected and open the EditFreelance window passing the selected freelance data
+            if (SelectedStatut != null)
+            {
+                EditStatuts editStatuts = new EditStatuts(SelectedStatut);
+                editStatuts.Closed += (s, args) => RefreshDataGrid(); // Actualisez le DataGrid après fermeture de la fenêtre d'édition
+                editStatuts.Show();
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner un freelance à modifier.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+
     }
 }
