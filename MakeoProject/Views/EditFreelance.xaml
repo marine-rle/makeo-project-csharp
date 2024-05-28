@@ -42,21 +42,53 @@
             <!-- Name Section -->
             <GroupBox Header="Prénom" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
                 <Grid Margin="10">
-                    <TextBox Name="Name" MaxLength="50" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" BorderThickness="1"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBox Name="Name" MaxLength="55" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" BorderThickness="1" TextChanged="Name_TextChanged" Grid.ColumnSpan="2" />
+                    <TextBlock Name="CharacterCount" Margin="0,5,0,0" Grid.Row="1" Text="0/50 caractères" TextAlignment="Right" Grid.Column="2"/>
+                    <TextBlock Name="ErrorMessage" Foreground="Red" Visibility="Collapsed" Margin="0,5,0,0" Text="Vous avez dépassé la limite de 50 caractères." Grid.Row="1" Grid.Column="0"/>
                 </Grid>
             </GroupBox>
 
             <!-- Surname Section -->
             <GroupBox Header="Nom" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
                 <Grid Margin="10">
-                    <TextBox Name="Surname" MaxLength="50" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" BorderThickness="1"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBox Name="Surname" MaxLength="55" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" BorderThickness="1" TextChanged="Surname_TextChanged" Grid.ColumnSpan="2" />
+                    <TextBlock Name="CharacterCountSurname" Margin="0,5,0,0" Grid.Row="1" Text="0/50 caractères" TextAlignment="Right" Grid.Column="2"/>
+                    <TextBlock Name="ErrorMessageSurname" Foreground="Red" Visibility="Collapsed" Margin="0,5,0,0" Text="Vous avez dépassé la limite de 50 caractères." Grid.Row="1" Grid.Column="0"/>
                 </Grid>
             </GroupBox>
 
             <!-- Description Section -->
             <GroupBox Header="Description" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="0,10,0,0" BorderBrush="DarkGray">
+               
+
                 <Grid Margin="10">
-                    <TextBox Name="Description" MaxLength="255" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Padding="5" FontSize="14" BorderBrush="Gray" BorderThickness="1" Height="55"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBox Name="Description" MaxLength="260" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" AcceptsReturn="True" BorderThickness="1" TextChanged="Description_TextChanged" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto"/>
+                    <TextBlock Name="CharacterCountDescription" Margin="0,5,0,0" Grid.Row="1" Text="0/255 caractères" TextAlignment="Right" Grid.Column="2"/>
+                    <TextBlock Name="ErrorMessageDescription" Foreground="Red" Visibility="Collapsed" Margin="0,5,0,0" Text="Vous avez dépassé la limite de 255 caractères." Grid.Row="1" Grid.Column="0"/>
                 </Grid>
             </GroupBox>
 

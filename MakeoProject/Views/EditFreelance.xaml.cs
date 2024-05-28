@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace MakeoProject.Views
 {
@@ -41,6 +42,51 @@ namespace MakeoProject.Views
             }
         }
 
+        private void Name_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Name.Text.Length;
+            CharacterCount.Text = $"{length}/50 caractères";
+
+            if (length > 50)
+            {
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessage.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Surname_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Surname.Text.Length;
+            CharacterCountSurname.Text = $"{length}/50 caractères";
+
+            if (length > 50)
+            {
+                ErrorMessageSurname.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessageSurname.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Description_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Description.Text.Length;
+            CharacterCountDescription.Text = $"{length}/255 caractères";
+
+            if (length > 255)
+            {
+                ErrorMessageDescription.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessageDescription.Visibility = Visibility.Collapsed;
+            }
+        }
+
         // Method to fill the form with data of the selected freelance
         private void FillFormWithData()
         {
@@ -56,7 +102,7 @@ namespace MakeoProject.Views
         private bool IsValidName(string name)
         {
             // Check if the name contains only letters (including accented letters) and spaces
-            return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$");
+            return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$") && name.Length <= 50;
         }
 
 
@@ -64,7 +110,7 @@ namespace MakeoProject.Views
         private bool IsValidDescription(string description)
         {
             // Check if the description contains at least one non-space character
-            return !string.IsNullOrWhiteSpace(description);
+            return !string.IsNullOrWhiteSpace(description) && description.Length <= 255;
         }
 
         // Event handler for adding a competence
