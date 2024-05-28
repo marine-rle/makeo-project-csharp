@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace MakeoProject.Views
 {
@@ -70,15 +72,44 @@ namespace MakeoProject.Views
             }
         }
 
+        private void Title_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Title.Text.Length;
+            CharacterCount.Text = $"{length}/100 caractères";
+
+            if (length > 100)
+            {
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessage.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Description_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Description.Text.Length;
+            CharacterCountDescription.Text = $"{length}/255 caractères";
+
+            if (length > 255)
+            {
+                ErrorMessageDescription.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessageDescription.Visibility = Visibility.Collapsed;
+            }
+        }
 
         private bool IsValidTitle(string title)
         {
-            return !string.IsNullOrWhiteSpace(title);
+            return !string.IsNullOrWhiteSpace(title) && title.Length <= 100;
         }
 
         private bool IsValidDescription(string description)
         {
-            return !string.IsNullOrWhiteSpace(description);
+            return !string.IsNullOrWhiteSpace(description) && description.Length <= 255;
         }
 
         private void AddSkillButton_Click(object sender, RoutedEventArgs e)
