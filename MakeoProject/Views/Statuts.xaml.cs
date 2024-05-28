@@ -61,5 +61,12 @@ namespace MakeoProject.Views
 
             dgStatuts.AutoGenerateColumns = false;
         }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddStatuts addStatuts = new AddStatuts();
+            addStatuts.Show();
+        }
     }
+
 }
