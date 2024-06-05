@@ -6,13 +6,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml.Linq;
 
 namespace MakeoProject.Views
 {
-    /// <summary>
-    /// Interaction logic for adding a new freelance.
-    /// </summary>
     public partial class AddFreelance : Window
     {
         // Collection of available competences
@@ -32,8 +28,6 @@ namespace MakeoProject.Views
             SelectedCompetences = new ObservableCollection<Competence>();
             SelectedCompetencesListBox.ItemsSource = SelectedCompetences;
         }
-
- 
 
         // Method to load competences from the database
         private void LoadCompetences()
@@ -96,8 +90,6 @@ namespace MakeoProject.Views
             return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$") && name.Length <= 50;
         }
 
-
-
         // Validation method for description
         private bool IsValidDescription(string description)
         {
@@ -137,8 +129,10 @@ namespace MakeoProject.Views
             string name = Name.Text;
             string surname = Surname.Text;
             string description = Description.Text;
+            string username = Username.Text;
+            string password = PasswordBox.Password;
 
-            if (IsValidName(name) && IsValidName(surname) && IsValidDescription(description))
+            if (IsValidName(name) && IsValidName(surname) && IsValidDescription(description) && !string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
                 // Check if there are selected competences
                 if (SelectedCompetencesListBox.Items.Count > 0)
@@ -148,6 +142,8 @@ namespace MakeoProject.Views
                         Name = name,
                         Surname = surname,
                         Description = description,
+                        Username = username,
+                        Password = BCrypt.Net.BCrypt.HashPassword(password), // Hash the password
                         CreatedAt = DateTime.Now,
                         UpdatedAt = DateTime.Now,
                     };
@@ -185,7 +181,7 @@ namespace MakeoProject.Views
             }
             else
             {
-                MessageBox.Show("Veuillez entrer un nom et un prénom valides (contenant des lettres) et remplir la description.");
+                MessageBox.Show("Veuillez remplir tous les champs requis.");
             }
         }
     }

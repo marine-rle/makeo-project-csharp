@@ -1,5 +1,6 @@
 ﻿using MakeoProject.DbLib.Class;
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,16 +12,10 @@ namespace MakeoProject.Views
 {
     public partial class EditFreelance : Window
     {
-        // Property to store the selected freelance data
         public Freelance SelectedFreelance { get; set; }
-
-        // Collection of available competences
         public ObservableCollection<Competence> AvailableCompetences { get; set; }
-
-        // Collection of selected competences
         public ObservableCollection<Competence> SelectedCompetences { get; set; }
 
-        // Constructor accepting the selected freelance data
         public EditFreelance(Freelance selectedFreelance)
         {
             InitializeComponent();
@@ -30,7 +25,6 @@ namespace MakeoProject.Views
             FillFormWithData();
         }
 
-        // Method to load competences from the database
         private void LoadCompetences()
         {
             using (MakeoProjectContext context = new MakeoProjectContext())
@@ -87,33 +81,42 @@ namespace MakeoProject.Views
             }
         }
 
-        // Method to fill the form with data of the selected freelance
         private void FillFormWithData()
         {
             Name.Text = SelectedFreelance.Name;
             Surname.Text = SelectedFreelance.Surname;
             Description.Text = SelectedFreelance.Description;
+            Username.Text = SelectedFreelance.Username;
 
             SelectedCompetencesListBox.ItemsSource = SelectedCompetences;
             AvailableCompetencesListBox.ItemsSource = AvailableCompetences;
         }
 
-        // Validation method for name and surname
         private bool IsValidName(string name)
         {
-            // Check if the name contains only letters (including accented letters) and spaces
             return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$") && name.Length <= 50;
         }
 
-
-        // Validation method for description
         private bool IsValidDescription(string description)
         {
-            // Check if the description contains at least one non-space character
             return !string.IsNullOrWhiteSpace(description) && description.Length <= 255;
         }
 
-        // Event handler for adding a competence
+        private bool IsValidUsername(string username)
+        {
+            return !string.IsNullOrWhiteSpace(username) && username.Length <= 50;
+        }
+
+        private bool IsValidPassword(string password)
+        {
+            return !string.IsNullOrWhiteSpace(password) && password.Length >= 6;
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
         private void AddCompetenceButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedCompetences = AvailableCompetencesListBox.SelectedItems.Cast<Competence>().ToList();
@@ -123,12 +126,10 @@ namespace MakeoProject.Views
                 AvailableCompetences.Remove(selected);
             }
 
-            // Update the ListBox items sources
             AvailableCompetencesListBox.ItemsSource = AvailableCompetences;
             SelectedCompetencesListBox.ItemsSource = SelectedCompetences;
         }
 
-        // Event handler for removing a competence
         private void RemoveCompetenceButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedCompetences = SelectedCompetencesListBox.SelectedItems.Cast<Competence>().ToList();
@@ -138,44 +139,47 @@ namespace MakeoProject.Views
                 AvailableCompetences.Add(selected);
             }
 
-            // Update the ListBox items sources
             AvailableCompetencesListBox.ItemsSource = AvailableCompetences;
             SelectedCompetencesListBox.ItemsSource = SelectedCompetences;
         }
 
-        // Event handler for confirming changes
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             string name = Name.Text;
             string surname = Surname.Text;
             string description = Description.Text;
+            string username = Username.Text;
+            string password = Password.Password; // Assuming Password is a PasswordBox
 
-            if (IsValidName(name) && IsValidName(surname) && IsValidDescription(description))
+            if (IsValidName(name) && IsValidName(surname) && IsValidDescription(description) && IsValidUsername(username))
             {
                 if (SelectedCompetencesListBox.Items.Count > 0)
                 {
-                    // Update the freelance data with the modified values
                     SelectedFreelance.Name = name;
                     SelectedFreelance.Surname = surname;
                     SelectedFreelance.Description = description;
+                    SelectedFreelance.Username = username;
                     SelectedFreelance.UpdatedAt = DateTime.Now;
+
+                    // Conditionally hash the password only if it's not empty
+                    if (!string.IsNullOrWhiteSpace(password))
+                    {
+                        SelectedFreelance.Password = HashPassword(password);
+                    }
 
                     try
                     {
                         using (MakeoProjectContext context = new MakeoProjectContext())
                         {
-                            // Remove existing competences
                             var existingCompetences = context.FreelanceCompetences.Where(fc => fc.FreelanceId == SelectedFreelance.Id).ToList();
                             context.FreelanceCompetences.RemoveRange(existingCompetences);
                             context.SaveChanges();
 
-                            // Add the new competences
                             foreach (var competence in SelectedCompetences)
                             {
                                 SelectedFreelance.FreelanceCompetences.Add(new FreelanceCompetence { FreelanceId = SelectedFreelance.Id, IdCompetences = competence.Id });
                             }
 
-                            // Update the freelance in the database
                             context.Update(SelectedFreelance);
                             context.SaveChanges();
 
@@ -192,7 +196,6 @@ namespace MakeoProject.Views
                         MessageBox.Show("Une erreur est survenue : " + ex.Message);
                     }
                 }
-
                 else
                 {
                     MessageBox.Show("Veuillez sélectionner au moins une compétence.");
@@ -200,8 +203,9 @@ namespace MakeoProject.Views
             }
             else
             {
-                MessageBox.Show("Veuillez entrer un nom et un prénom valides (contenant des lettres) et remplir la description.");
+                MessageBox.Show("Veuillez entrer des informations valides.");
             }
         }
+
     }
 }

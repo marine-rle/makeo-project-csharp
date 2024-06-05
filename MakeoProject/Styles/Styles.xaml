@@ -162,10 +162,18 @@
 
     <Style x:Key="Text-black" TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="Black" />
-    </Style>  
-    
+    </Style>
+
+    <Style x:Key="Text-blacks" TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
     <Style x:Key="Text-pinkorange" TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="#FF6F61" />
+    </Style>
+
+    <Style x:Key="Label-grey" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="#3b3738" />
     </Style>
 
 

@@ -11,17 +11,17 @@
 
         <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
             <!-- Titre principal -->
-            <TextBlock Text="Bienvenue !" TextAlignment="Center" FontSize="26" FontWeight="Bold" Margin="0 0 0 20" Foreground="#333333"/>
+            <TextBlock Text="Bienvenue !" TextAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 0 0 20" Foreground="#333333"/>
 
             <!-- Introduction -->
-            <Border Background="White" CornerRadius="10" Padding="15" Margin="0 0 0 20">
+            <Border Background="White" CornerRadius="10" Padding="15" Margin="0 0 0 10">
                 <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Foreground="#666666">
                     Bonjour chère personne ayant un immense talent ! Vous vous trouvez dans le gestionnaire des données de Makeo Project. Vous trouverez différents espaces pour gérer les freelances, les compétences, les statuts, les projets et les clients.
                 </TextBlock>
             </Border>
 
             <!-- Section : Comment aller sur la page souhaitée ? -->
-            <Border Background="White" CornerRadius="10" Padding="15" Margin="0 0 0 20">
+            <Border Background="White" CornerRadius="10" Padding="15" Margin="0 0 0 10">
                 <StackPanel>
                     <TextBlock Text="Comment aller sur la page souhaitée ?" TextWrapping="Wrap" TextAlignment="Center" FontWeight="SemiBold" FontSize="14" Style="{StaticResource Text-pinkorange}" Margin="0 0 0 10"/>
                     <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Foreground="#666666">
@@ -31,7 +31,7 @@
             </Border>
 
             <!-- Section : Comment gérer les données des pages ? -->
-            <Border Background="White" CornerRadius="10" Padding="15" Margin="0 0 0 20">
+            <Border Background="White" CornerRadius="10" Padding="15" Margin="0 0 0 10">
                 <StackPanel>
                     <TextBlock Text="Comment gérer les données des pages ?" TextWrapping="Wrap" TextAlignment="Center" FontWeight="SemiBold" FontSize="14" Style="{StaticResource Text-pinkorange}" Margin="0 0 0 10"/>
                     <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Foreground="#666666">

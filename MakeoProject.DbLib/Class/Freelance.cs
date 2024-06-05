@@ -13,6 +13,12 @@ public partial class Freelance
 
     public string Description { get; set; } = null!;
 
+    public string Username { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
+
+    public bool Admin { get; set; }
+
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }

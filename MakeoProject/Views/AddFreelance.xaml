@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MakeoProject.Views"
         mc:Ignorable="d"
         Title="Ajouter un freelance" Height="600" Width="1000"
-         WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="GroupBox">
             <Setter Property="HeaderTemplate">
@@ -31,6 +31,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -41,7 +43,6 @@
 
             <!-- Name Section -->
             <GroupBox Header="Prénom" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
-               
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -59,7 +60,6 @@
 
             <!-- Surname Section -->
             <GroupBox Header="Nom" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
-                
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -75,9 +75,22 @@
                 </Grid>
             </GroupBox>
 
+            <!-- Username Section -->
+            <GroupBox Header="Nom d'utilisateur" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
+                <Grid Margin="10">
+                    <TextBox Name="Username" MaxLength="55" Padding="5" FontSize="14" TextWrapping="Wrap" BorderBrush="Gray" BorderThickness="1" />
+                </Grid>
+            </GroupBox>
+
+            <!-- Password Section -->
+            <GroupBox Header="Mot de passe" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,10,10,0" BorderBrush="DarkGray">
+                <Grid Margin="10">
+                    <PasswordBox Name="PasswordBox" MaxLength="100" Padding="5" FontSize="14" BorderBrush="Gray" BorderThickness="1" />
+                </Grid>
+            </GroupBox>
+
             <!-- Description Section -->
-            <GroupBox Header="Description" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="0,10,0,0" BorderBrush="DarkGray">
-              
+            <GroupBox Header="Description" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Margin="0,10,0,0" BorderBrush="DarkGray">
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -94,7 +107,7 @@
             </GroupBox>
 
             <!-- Skills GroupBox -->
-            <GroupBox Header="Compétences disponibles et sélectionnées" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,10,0,0" BorderBrush="DarkGray">
+            <GroupBox Header="Compétences disponibles et sélectionnées" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" Margin="0,10,0,0" BorderBrush="DarkGray">
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
@@ -120,7 +133,7 @@
             </GroupBox>
 
             <!-- Confirm Button -->
-            <Button Content="Valider" Width="100" Height="30" Margin="10" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Right" Click="ConfirmButton_Click" Style="{StaticResource AddButtonStyle}"/>
+            <Button Content="Valider" Width="100" Height="30" Margin="10" Grid.Column="2" Grid.Row="8" HorizontalAlignment="Right" Click="ConfirmButton_Click" Style="{StaticResource AddButtonStyle}"/>
         </Grid>
     </ScrollViewer>
 </Window>

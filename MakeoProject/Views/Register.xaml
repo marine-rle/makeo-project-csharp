@@ -1,0 +1,74 @@
+﻿<Window x:Class="MakeoProject.Views.Register"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MakeoProject.Views"
+        mc:Ignorable="d"
+        Title="Register" Height="550" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Inscription Freelance" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,20" Style="{StaticResource Text-pink}"/>
+
+        <GroupBox Header="Informations personnelles" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Prénom" Style="{StaticResource Label-grey}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,30,0,0"/>
+                <TextBox Name="NameTextBox" Margin="10,30,0,0" Style="{StaticResource Text-blacks}" Grid.Row="0" Grid.Column="1"/>
+
+                <Label Content="Nom" Style="{StaticResource Label-grey}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,10,0,0"/>
+                <TextBox Name="SurnameTextBox" Margin="10,10,0,0" Style="{StaticResource Text-blacks}" Grid.Row="1" Grid.Column="1"/>
+
+                <Label Content="Description" Style="{StaticResource Label-grey}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,10,0,30"/>
+                <TextBox Name="DescriptionTextBox" Margin="10,10,0,30" AcceptsReturn="True" Height="60" Style="{StaticResource Text-blacks}" Grid.Row="2" Grid.Column="1"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Informations de connexion" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0">
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Nom d'utilisateur" Style="{StaticResource Label-grey}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,30,0,0"/>
+                <TextBox Name="UsernameTextBox" Margin="10,30,0,0" Style="{StaticResource Text-blacks}" Grid.Row="0" Grid.Column="1"/>
+
+                <Label Content="Mot de passe" Style="{StaticResource Label-grey}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,10,0,30"/>
+                <PasswordBox Name="PasswordBox" Margin="10,10,0,30" Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+        </GroupBox>
+
+        <Button Content="S'inscrire" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Width="100" Click="RegisterButton_Click" Style="{StaticResource AddButtonStyle}" Margin="0,20,0,0"/>
+    </Grid>
+</Window>

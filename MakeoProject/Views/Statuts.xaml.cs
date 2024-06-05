@@ -9,9 +9,6 @@ using System.Windows.Data;
 
 namespace MakeoProject.Views
 {
-    /// <summary>
-    /// Logique d'interaction pour Statuts.xaml
-    /// </summary>
     public partial class Statuts : UserControl
     {
         public ObservableCollection<Statut> allstatut { get; set; }
@@ -22,7 +19,37 @@ namespace MakeoProject.Views
             InitializeComponent();
             this.DataContext = this;
             LoadStatuts();
+            InitializeDataGridColumns();
 
+            // Vérifier le statut de l'utilisateur actuellement connecté
+            bool isAdmin = Session.CurrentUser != null && Session.CurrentUser.Admin;
+
+            // Afficher ou masquer les boutons Ajouter, Modifier et Supprimer en fonction du statut admin
+            AddButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+            EditButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        // Méthode pour charger les statuts depuis la base de données
+        private void LoadStatuts()
+        {
+            using (MakeoProjectContext context = new MakeoProjectContext())
+            {
+                allstatut = new ObservableCollection<Statut>(context.Statuts.ToList());
+            }
+            dgStatuts.ItemsSource = allstatut;
+        }
+
+        // Méthode pour actualiser le DataGrid après des modifications
+        private void RefreshDataGrid()
+        {
+            LoadStatuts();
+            dgStatuts.ItemsSource = allstatut;
+        }
+
+        // Méthode pour initialiser les colonnes du DataGrid
+        private void InitializeDataGridColumns()
+        {
             var columnsToDisplay = new Dictionary<string, string>
             {
                 { "Id", "ID" },
@@ -49,21 +76,7 @@ namespace MakeoProject.Views
             dgStatuts.AutoGenerateColumns = false;
         }
 
-        private void LoadStatuts()
-        {
-            using (MakeoProjectContext context = new MakeoProjectContext())
-            {
-                allstatut = new ObservableCollection<Statut>(context.Statuts.ToList());
-            }
-            dgStatuts.ItemsSource = allstatut;
-        }
-
-        private void RefreshDataGrid()
-        {
-            LoadStatuts();
-            dgStatuts.ItemsSource = allstatut;
-        }
-
+        // Gestionnaire d'événement pour le clic sur le bouton Ajouter
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddStatuts addStatuts = new AddStatuts();
@@ -71,27 +84,28 @@ namespace MakeoProject.Views
             addStatuts.Show();
         }
 
+        // Gestionnaire d'événement pour le clic sur le bouton Modifier
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            // Check if a freelance is selected and open the EditFreelance window passing the selected freelance data
             if (SelectedStatut != null)
             {
                 EditStatuts editStatuts = new EditStatuts(SelectedStatut);
-                editStatuts.Closed += (s, args) => RefreshDataGrid(); // Actualisez le DataGrid après fermeture de la fenêtre d'édition
+                editStatuts.Closed += (s, args) => RefreshDataGrid();
                 editStatuts.Show();
             }
             else
             {
-                MessageBox.Show("Veuillez sélectionner un freelance à modifier.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Veuillez sélectionner un statut à modifier.", "Avertissement", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        // Gestionnaire d'événement pour le clic sur le bouton Supprimer
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedStatut != null)
             {
                 using (MakeoProjectContext context = new MakeoProjectContext())
                 {
-                    // Vérifiez si le statut est utilisé dans un projet
                     bool isUsed = context.Projects.Any(p => p.StatutId == SelectedStatut.Id);
 
                     if (isUsed)

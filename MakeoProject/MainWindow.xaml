@@ -7,24 +7,24 @@
         xmlns:local="clr-namespace:MakeoProject"
         mc:Ignorable="d"
         Title="Makeo Project" Height="550" Width="1200"
-         WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen">
     <Grid  Style="{StaticResource Grid}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="160" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
 
         <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource GridNavbar}" >
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="15" />
                 <RowDefinition Height="*" />
@@ -42,7 +42,7 @@
                 <RowDefinition Height="15" />
                 <RowDefinition Height="15" />
             </Grid.RowDefinitions>
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="15" />
                 <ColumnDefinition Width="*" />
@@ -56,6 +56,14 @@
             <Button Grid.Column="1"     Grid.Row="10"    Content="Projets"      Style="{StaticResource NavbarButtonText}" Click="Projects_Button_Click"/>
             <Button Grid.Column="1"     Grid.Row="12"    Content="Clients"      Style="{StaticResource NavbarButtonText}" Click="Users_Button_Click"/>
         </Grid>
+
+        <!-- Top Right Buttons (Login, Register, Logout) -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Margin="10">
+            <Button x:Name="LoginButton" Content="Connexion" Click="LoginButton_Click" Visibility="Visible" Margin="5,0"/>
+            <Button x:Name="RegisterButton" Content="Inscription" Click="RegisterButton_Click" Visibility="Visible" Margin="5,0"/>
+            <Button x:Name="LogoutButton" Content="Déconnexion" Click="LogoutButton_Click" Visibility="Collapsed" Margin="5,0"/>
+        </StackPanel>
+
         <DockPanel x:Name="MainPanel" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3">
             <views:Home/>
         </DockPanel>

@@ -9,9 +9,6 @@ using System.Windows.Data;
 
 namespace MakeoProject.Views
 {
-    /// <summary>
-    /// Logique d'interaction pour Competences.xaml
-    /// </summary>
     public partial class Competences : UserControl
     {
         public ObservableCollection<Competence> allcompetence { get; set; }
@@ -22,7 +19,37 @@ namespace MakeoProject.Views
             InitializeComponent();
             this.DataContext = this;
             LoadCompetences();
+            InitializeDataGridColumns();
 
+            // Vérifier le statut de l'utilisateur actuellement connecté
+            bool isAdmin = Session.CurrentUser != null && Session.CurrentUser.Admin;
+
+            // Afficher ou masquer les boutons Ajouter, Modifier et Supprimer en fonction du statut admin
+            AddButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+            EditButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        // Méthode pour charger les compétences depuis la base de données
+        private void LoadCompetences()
+        {
+            using (MakeoProjectContext context = new MakeoProjectContext())
+            {
+                allcompetence = new ObservableCollection<Competence>(context.Competences.ToList());
+            }
+            dgCompetences.ItemsSource = allcompetence;
+        }
+
+        // Méthode pour actualiser le DataGrid après des modifications
+        private void RefreshDataGrid()
+        {
+            LoadCompetences();
+            dgCompetences.ItemsSource = allcompetence;
+        }
+
+        // Méthode pour initialiser les colonnes du DataGrid
+        private void InitializeDataGridColumns()
+        {
             var columnsToDisplay = new Dictionary<string, string>
             {
                 { "Id", "ID" },
@@ -64,27 +91,15 @@ namespace MakeoProject.Views
             dgCompetences.AutoGenerateColumns = false;
         }
 
-        private void LoadCompetences()
-        {
-            using (MakeoProjectContext context = new MakeoProjectContext())
-            {
-                allcompetence = new ObservableCollection<Competence>(context.Competences.ToList());
-            }
-            dgCompetences.ItemsSource = allcompetence;
-        }
-
-        private void RefreshDataGrid()
-        {
-            LoadCompetences();
-            dgCompetences.ItemsSource = allcompetence;
-        }
-
+        // Gestionnaire d'événement pour le clic sur le bouton Ajouter
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddCompetences addCompetences = new AddCompetences();
             addCompetences.Closed += (s, args) => RefreshDataGrid();
             addCompetences.Show();
         }
+
+        // Gestionnaire d'événement pour le clic sur le bouton Modifier
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedCompetence != null)
@@ -99,13 +114,13 @@ namespace MakeoProject.Views
             }
         }
 
+        // Gestionnaire d'événement pour le clic sur le bouton Supprimer
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedCompetence != null)
             {
                 using (MakeoProjectContext context = new MakeoProjectContext())
                 {
-                    // Vérifiez si la compétence est utilisée dans un projet
                     bool isUsedInProject = context.ProjetCompetences.Any(pc => pc.IdCompetences == SelectedCompetence.Id);
                     bool isUsedInFreelance = context.FreelanceCompetences.Any(fc => fc.IdCompetences == SelectedCompetence.Id);
 

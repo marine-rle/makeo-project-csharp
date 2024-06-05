@@ -12,7 +12,6 @@ namespace MakeoProject.Views
     public partial class Users : UserControl
     {
         public ObservableCollection<User> alluser { get; set; }
-
         public User? SelectedUser { get; set; }
 
         public Users()
@@ -21,7 +20,33 @@ namespace MakeoProject.Views
             this.DataContext = this;
 
             LoadUsers();
+            InitializeDataGridColumns();
 
+            // Vérifier si l'utilisateur actuel est un administrateur
+            bool isAdmin = Session.CurrentUser != null && Session.CurrentUser.Admin;
+
+            // Afficher ou masquer les boutons en fonction du statut de l'administrateur
+            EditButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void LoadUsers()
+        {
+            using (MakeoProjectContext context = new MakeoProjectContext())
+            {
+                var users = context.Users.ToList();
+                alluser = new ObservableCollection<User>(users);
+            }
+        }
+
+        private void RefreshDataGrid()
+        {
+            LoadUsers();
+            dgCustomer.ItemsSource = alluser;
+        }
+
+        private void InitializeDataGridColumns()
+        {
             var columnsToDisplay = new Dictionary<string, string>
             {
                 { "Id", "ID" },
@@ -56,22 +81,7 @@ namespace MakeoProject.Views
             dgCustomer.AutoGenerateColumns = false;
         }
 
-        private void LoadUsers()
-        {
-            using (MakeoProjectContext context = new MakeoProjectContext())
-            {
-                var users = context.Users.ToList();
-                alluser = new ObservableCollection<User>(users);
-            }
-        }
-
-        private void RefreshDataGrid()
-        {
-            LoadUsers();
-            dgCustomer.ItemsSource = alluser;
-        }
-
-        // Event handler for Info Button click
+        // Gestionnaire d'événement pour le clic sur le bouton Information
         private void InfoButton_Click(object sender, RoutedEventArgs e)
         {
             if (dgCustomer.SelectedItem is User selectedUser)
@@ -85,7 +95,7 @@ namespace MakeoProject.Views
             }
         }
 
-        // Event handler for Edit Button click
+        // Gestionnaire d'événement pour le clic sur le bouton Modifier
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedUser != null)
@@ -100,6 +110,7 @@ namespace MakeoProject.Views
             }
         }
 
+        // Gestionnaire d'événement pour le clic sur le bouton Supprimer
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedUser != null)
