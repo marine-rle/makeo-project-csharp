@@ -44,6 +44,12 @@ namespace MakeoProject.Views
             if (length > 50)
             {
                 ErrorMessage.Visibility = Visibility.Visible;
+                ErrorMessage.Text = "Vous avez dépassé la limite de 50 caractères.";
+            }
+            else if (length < 1)
+            {
+                ErrorMessage.Visibility = Visibility.Visible;
+                ErrorMessage.Text = "Le prénom doit contenir au moins 1 caractère.";
             }
             else
             {
@@ -59,6 +65,12 @@ namespace MakeoProject.Views
             if (length > 50)
             {
                 ErrorMessageSurname.Visibility = Visibility.Visible;
+                ErrorMessageSurname.Text = "Vous avez dépassé la limite de 50 caractères.";
+            }
+            else if (length < 1)
+            {
+                ErrorMessageSurname.Visibility = Visibility.Visible;
+                ErrorMessageSurname.Text = "Le nom doit contenir au moins 1 caractère.";
             }
             else
             {
@@ -74,10 +86,63 @@ namespace MakeoProject.Views
             if (length > 255)
             {
                 ErrorMessageDescription.Visibility = Visibility.Visible;
+                ErrorMessageDescription.Text = "Vous avez dépassé la limite de 255 caractères.";
+            }
+            else if (length < 10)
+            {
+                ErrorMessageDescription.Visibility = Visibility.Visible;
+                ErrorMessageDescription.Text = "La description doit contenir au moins 10 caractères.";
             }
             else
             {
                 ErrorMessageDescription.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Username_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = Username.Text.Length;
+            CharacterCountUsername.Text = $"{length}/30 caractères";
+
+            if (length > 30)
+            {
+                ErrorMessageUsername.Visibility = Visibility.Visible;
+                ErrorMessageUsername.Text = "Vous avez dépassé la limite de 30 caractères.";
+            }
+            else if (length < 5)
+            {
+                ErrorMessageUsername.Visibility = Visibility.Visible;
+                ErrorMessageUsername.Text = "L'identifiant doit contenir au moins 5 caractères.";
+            }
+            else
+            {
+                ErrorMessageUsername.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            int length = PasswordBox.Password.Length;
+            CharacterCountPassword.Text = $"{length}/64 caractères";
+
+            if (length > 64)
+            {
+                ErrorMessagePassword.Visibility = Visibility.Visible;
+                ErrorMessagePassword.Text = "Vous avez dépassé la limite de 64 caractères.";
+            }
+            else if (length < 8)
+            {
+                ErrorMessagePassword.Visibility = Visibility.Visible;
+                ErrorMessagePassword.Text = "Le mot de passe doit contenir au moins 8 caractères.";
+            }
+            else if (!Regex.IsMatch(PasswordBox.Password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"))
+            {
+                ErrorMessagePassword.Visibility = Visibility.Visible;
+                ErrorMessagePassword.Text = "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.";
+            }
+            else
+            {
+                ErrorMessagePassword.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -92,25 +157,38 @@ namespace MakeoProject.Views
             AvailableCompetencesListBox.ItemsSource = AvailableCompetences;
         }
 
+
+        // Validation method for name and surname
         private bool IsValidName(string name)
         {
-            return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$") && name.Length <= 50;
+            // Check if the name contains only letters (including accented letters) and spaces
+            return !string.IsNullOrWhiteSpace(name) && Regex.IsMatch(name, @"^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$") && name.Length >= 1 && name.Length <= 50;
         }
 
+        // Validation method for description
         private bool IsValidDescription(string description)
         {
-            return !string.IsNullOrWhiteSpace(description) && description.Length <= 255;
+            // Check if the description contains at least one non-space character
+            return !string.IsNullOrWhiteSpace(description) && description.Length >= 10 && description.Length <= 255;
         }
 
+        // Validation method for username
         private bool IsValidUsername(string username)
         {
-            return !string.IsNullOrWhiteSpace(username) && username.Length <= 50;
+            // Check if the username has at least 5 characters
+            return !string.IsNullOrWhiteSpace(username) && username.Length >= 5 && username.Length <= 30;
         }
 
+        // Validation method for password
         private bool IsValidPassword(string password)
         {
-            return !string.IsNullOrWhiteSpace(password) && password.Length >= 6;
+            // Check if the password has at least 8 characters and at most 64 characters
+            // And meets complexity requirements: at least one uppercase letter, one lowercase letter, one digit, and one special character
+            return !string.IsNullOrWhiteSpace(password) && password.Length >= 8 && password.Length <= 64 &&
+                   Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.]).{8,}$"
+);
         }
+
 
         private string HashPassword(string password)
         {
@@ -149,7 +227,7 @@ namespace MakeoProject.Views
             string surname = Surname.Text;
             string description = Description.Text;
             string username = Username.Text;
-            string password = Password.Password; // Assuming Password is a PasswordBox
+            string password = PasswordBox.Password; // Assuming Password is a PasswordBox
 
             if (IsValidName(name) && IsValidName(surname) && IsValidDescription(description) && IsValidUsername(username))
             {
