@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MakeoProject.Views"
         mc:Ignorable="d"
-        Title="InfoProject" Height="600" Width="1000"
+        Title="Informations du projet" Height="600" Width="1000"
          WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
@@ -25,7 +25,7 @@
 
         <!-- Personal Information Section -->
         <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#3498db" Padding="5" Margin="0 0 0 10">
-            <TextBlock Text="Informations Personnelles" FontSize="18" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Text="Informations du projet" FontSize="18" FontWeight="Bold" Foreground="White"/>
         </Border>
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 10" Orientation="Vertical">
             <WrapPanel Orientation="Horizontal">
@@ -49,8 +49,8 @@
                     <Run Text="{Binding User.Email}"/>
                 </TextBlock>
             </WrapPanel>
-
-
+            <Button Grid.Row="1" Grid.Column="1" Content="Ajouter" Name="AddButton" Click="AddButton_Click" Style="{StaticResource AddButtonStyle}"/>
+            
         </StackPanel>
 
         <!-- Dates Section -->

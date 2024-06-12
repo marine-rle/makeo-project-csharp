@@ -9,7 +9,14 @@ namespace MakeoProject.Views
     {
         public ObservableCollection<Freelance> AssociatedFreelances { get; set; }
 
-        public InfoProject(Project selectedProject)
+
+
+        private Project selectedProject;
+
+
+
+
+        public InfoProject(Project project)
         {
             InitializeComponent();
             AssociatedFreelances = new ObservableCollection<Freelance>();
@@ -17,7 +24,7 @@ namespace MakeoProject.Views
             using (MakeoProjectContext context = new MakeoProjectContext())
             {
                 var freelances = context.FreelanceProjects
-                                         .Where(fp => fp.ProjectId == selectedProject.Id)
+                                         .Where(fp => fp.ProjectId == project.Id)
                                          .Select(fp => fp.Freelance)
                                          .ToList();
 
@@ -32,7 +39,18 @@ namespace MakeoProject.Views
             freelanceListBox.ItemsSource = AssociatedFreelances;
 
             // Définissez le DataContext de la fenêtre sur le projet sélectionné pour afficher ses autres détails
-            DataContext = selectedProject;
+            DataContext = selectedProject = project;
+
+            bool isAdmin = Session.CurrentUser != null && Session.CurrentUser.Admin;
+
+            // Afficher ou masquer les boutons en fonction du statut de l'administrateur
+            AddButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddTache addTache = new AddTache(selectedProject); // Passer selectedProject à AddTache
+            addTache.Show();
         }
     }
 }

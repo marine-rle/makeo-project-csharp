@@ -47,17 +47,20 @@ public partial class MakeoProjectContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    /*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("server=192.168.56.56;port=3306;database=makeo_project;user=homestead;password=secret");
+    public virtual DbSet<Taches> Taches { get; set; }
 
-    */
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+=> optionsBuilder.UseMySQL("server=192.168.56.56;port=3306;database=makeo_project;user=homestead;password=secret");
+
+
+
+   /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = "server=10.193.55.1;port=3306;database=makeo_project;user=marine;password=M0812";
         optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-    }
+    }*/
 
 protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -390,7 +393,38 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
                 .HasColumnName("updated_at");
         });
 
-        modelBuilder.Entity<User>(entity =>
+        modelBuilder.Entity<Taches>(entity =>
+        {
+            entity.ToTable("taches");
+
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ProjectId).HasColumnName("project_id");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.Duree).HasColumnName("duree");
+            entity.Property(e => e.Title)
+                .HasMaxLength(255)
+                .HasColumnName("title");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("timestamp")
+                .HasColumnName("created_at");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("timestamp")
+                .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Project)
+                .WithMany(p => p.Taches)
+                .HasForeignKey(d => d.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("taches_project_id_foreign");
+        });
+
+
+    modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
